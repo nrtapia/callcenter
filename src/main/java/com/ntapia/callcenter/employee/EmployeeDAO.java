@@ -7,6 +7,8 @@ import java.util.Optional;
  */
 interface EmployeeDAO {
 
+    Employee getById(Long id);
+
     Employee create(Employee employee);
 
     Employee update(Employee employee);

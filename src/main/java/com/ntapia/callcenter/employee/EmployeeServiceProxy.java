@@ -4,10 +4,12 @@ package com.ntapia.callcenter.employee;
 
 import com.ntapia.callcenter.common.EmployeeNotAvailableException;
 
+import java.util.Objects;
+
 /**
  * @author Neider Tapia <ntapia@boomi.com>.
  */
-public final class EmployeeServiceProxy implements EmployeeService {
+public final class EmployeeServiceProxy{
 
     private EmployeeServiceProxy() {
     }
@@ -20,13 +22,22 @@ public final class EmployeeServiceProxy implements EmployeeService {
         return SingletonHelper.instance;
     }
 
-    @Override
-    public Employee save(Employee employee) {
+    public static Employee save(Employee employee) {
         return getInstance().save(employee);
     }
 
-    @Override
-    public Employee getAvailable() throws EmployeeNotAvailableException {
-        return getInstance().getAvailable();
+    public static synchronized Employee getAvailableAndChangeToBusy() throws EmployeeNotAvailableException {
+        Employee employee = getInstance().getAvailable();
+        employee.setCallCounter(employee.getCallCounter() + 1);
+        employee.setEmployeeStatus(EmployeeStatus.BUSY);
+        return getInstance().save(employee);
+    }
+
+    public static void changeStatusToActive(Long id){
+        Employee employee = getInstance().get(id);
+        if(Objects.nonNull(employee)){
+            employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
+            getInstance().save(employee);
+        }
     }
 }

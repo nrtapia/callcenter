@@ -17,6 +17,11 @@ class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee get(Long id) {
+        return employeeDAO.getById(id);
+    }
+
+    @Override
     public Employee save(Employee employee) {
         if (Objects.isNull(employee)) {
             throw new IllegalArgumentException("The employee it's required!");
@@ -29,7 +34,7 @@ class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getAvailable() throws EmployeeNotAvailableException {
-        return findAvailableByType(EmployeeType.OPERARTOR)
+        return findAvailableByType(EmployeeType.OPERATOR)
                 .orElse(findAvailableByType(EmployeeType.SUPERVISOR)
                 .orElse(findAvailableByType(EmployeeType.DIRECTOR)
                         .orElseThrow(EmployeeNotAvailableException::new)));

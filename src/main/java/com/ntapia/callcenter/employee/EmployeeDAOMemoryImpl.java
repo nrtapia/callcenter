@@ -19,6 +19,11 @@ class EmployeeDAOMemoryImpl implements EmployeeDAO{
     }
 
     @Override
+    public Employee getById(Long id) {
+        return memory.get(id);
+    }
+
+    @Override
     public Employee create(Employee employee) {
         Long id = idCounter.getAndIncrement();
         employee.setId(id);

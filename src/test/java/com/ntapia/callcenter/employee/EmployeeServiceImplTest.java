@@ -16,7 +16,7 @@ import static com.ntapia.callcenter.employee.EmployeeStatus.ACTIVE;
 import static com.ntapia.callcenter.employee.EmployeeStatus.BUSY;
 import static com.ntapia.callcenter.employee.EmployeeStatus.INACTIVE;
 import static com.ntapia.callcenter.employee.EmployeeType.DIRECTOR;
-import static com.ntapia.callcenter.employee.EmployeeType.OPERARTOR;
+import static com.ntapia.callcenter.employee.EmployeeType.OPERATOR;
 import static com.ntapia.callcenter.employee.EmployeeType.SUPERVISOR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -71,10 +71,10 @@ public class EmployeeServiceImplTest {
     public void testAvailableNotFoundMustThrowEmployeeNotAvailableException() throws EmployeeNotAvailableException {
 
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        TestUtil.bulkBuilder(OPERARTOR,     BUSY,       ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     INACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(SUPERVISOR,    BUSY,       ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(DIRECTOR,      INACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     BUSY,       ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     INACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    BUSY,       ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(DIRECTOR,      INACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
 
         EmployeeService service = new EmployeeServiceImpl(employeeDAO);
         service.getAvailable();
@@ -85,18 +85,18 @@ public class EmployeeServiceImplTest {
 
         long minCounter = 3;
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        TestUtil.bulkBuilder(SUPERVISOR,    ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(SUPERVISOR,    INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(DIRECTOR,      ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     BUSY,     FIVE, TEN).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     ACTIVE,   minCounter, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(DIRECTOR,      ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     BUSY,     FIVE, TEN).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     ACTIVE,   minCounter, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
 
         EmployeeService service = new EmployeeServiceImpl(employeeDAO);
         Employee employee = service.getAvailable();
 
         assertNotNull(employee);
-        assertEquals(OPERARTOR, employee.getEmployeeType());
+        assertEquals(OPERATOR, employee.getEmployeeType());
         assertSame(minCounter, employee.getCallCounter());
         assertEquals(ACTIVE, employee.getEmployeeStatus());
     }
@@ -106,11 +106,11 @@ public class EmployeeServiceImplTest {
 
         long minCounter = 3;
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        TestUtil.bulkBuilder(SUPERVISOR,    ACTIVE,   minCounter, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(SUPERVISOR,    INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(DIRECTOR,      ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     BUSY,     FIVE, TEN).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    ACTIVE,   minCounter, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(DIRECTOR,      ACTIVE,   ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     BUSY,     FIVE, TEN).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
 
         EmployeeService service = new EmployeeServiceImpl(employeeDAO);
         Employee employee = service.getAvailable();
@@ -126,10 +126,10 @@ public class EmployeeServiceImplTest {
 
         long minCounter = FIVE;
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        TestUtil.bulkBuilder(SUPERVISOR,    INACTIVE, ONE, TEN).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(DIRECTOR,      INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(DIRECTOR,      ACTIVE,   minCounter, TEN).forEach(employeeDAO::create);
-        TestUtil.bulkBuilder(OPERARTOR,     BUSY,     ONE, TEN).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(SUPERVISOR,    INACTIVE, ONE, TEN).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(DIRECTOR,      INACTIVE, ONE, FIVE).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(DIRECTOR,      ACTIVE,   minCounter, TEN).forEach(employeeDAO::create);
+        TestUtil.bulkClientBuilder(OPERATOR,     BUSY,     ONE, TEN).forEach(employeeDAO::create);
 
         EmployeeService service = new EmployeeServiceImpl(employeeDAO);
         Employee employee = service.getAvailable();

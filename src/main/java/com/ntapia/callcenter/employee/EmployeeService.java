@@ -5,7 +5,9 @@ import com.ntapia.callcenter.common.EmployeeNotAvailableException;
 /**
  * @author Neider Tapia <neider.tapia@gmail.com>.
  */
-public interface EmployeeService {
+interface EmployeeService {
+
+    Employee get(Long id);
 
     Employee save(Employee employee);
 

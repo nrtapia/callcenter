@@ -1,4 +1,4 @@
-package com.ntapia.callcenter.model;
+package com.ntapia.callcenter.common;
 
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +13,10 @@ public class Client extends Person {
     @Builder
     public Client(Long id, String name) {
         super(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

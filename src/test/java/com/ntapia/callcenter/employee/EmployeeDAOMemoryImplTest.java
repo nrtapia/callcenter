@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import static com.ntapia.callcenter.common.TestUtil.NAME_THANOS;
 import static com.ntapia.callcenter.employee.EmployeeStatus.INACTIVE;
-import static com.ntapia.callcenter.employee.EmployeeType.OPERARTOR;
+import static com.ntapia.callcenter.employee.EmployeeType.OPERATOR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -23,18 +23,18 @@ public class EmployeeDAOMemoryImplTest{
     @Test
     public void testCreateMustHaveNewEmployee() {
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        Employee employee = employeeDAO.create(TestUtil.buildEmployee(OPERARTOR, INACTIVE));
+        Employee employee = employeeDAO.create(TestUtil.buildEmployee(OPERATOR, INACTIVE));
 
         assertNotNull(employee);
         assertNotNull(employee.getId());
-        assertEquals(OPERARTOR, employee.getEmployeeType());
+        assertEquals(OPERATOR, employee.getEmployeeType());
         assertEquals(INACTIVE, employee.getEmployeeStatus());
     }
 
     @Test
     public void testUpdateMustHaveChanges() {
         EmployeeDAO employeeDAO = new EmployeeDAOMemoryImpl();
-        Employee oldEmployee = employeeDAO.create(TestUtil.buildEmployee(OPERARTOR, INACTIVE));
+        Employee oldEmployee = employeeDAO.create(TestUtil.buildEmployee(OPERATOR, INACTIVE));
 
         Employee actualEmployee = Employee.builder()
                 .employeeStatus(oldEmployee.getEmployeeStatus())
@@ -62,7 +62,7 @@ public class EmployeeDAOMemoryImplTest{
         TestUtil.bulkBuilderSupervisor(3, 7).forEach(employeeDAO::create);
 
         Optional<Employee> actual =
-                employeeDAO.getByTypeAndStatusAndMinorCallCounter(OPERARTOR, EmployeeStatus.ACTIVE);
+                employeeDAO.getByTypeAndStatusAndMinorCallCounter(OPERATOR, EmployeeStatus.ACTIVE);
         assertFalse(actual.isPresent());
     }
 
@@ -74,13 +74,13 @@ public class EmployeeDAOMemoryImplTest{
         TestUtil.bulkBuilderSupervisor(1, 5).forEach(employeeDAO::create);
         TestUtil.bulkBuilderOperator(callCounterExpected, 7).forEach(employeeDAO::create);
 
-        Optional<Employee> actual = employeeDAO.getByTypeAndStatusAndMinorCallCounter(OPERARTOR,
+        Optional<Employee> actual = employeeDAO.getByTypeAndStatusAndMinorCallCounter(OPERATOR,
                 EmployeeStatus.ACTIVE);
         assertTrue(actual.isPresent());
 
         Employee employee = actual.get();
         assertEquals(callCounterExpected, employee.getCallCounter());
-        assertEquals(OPERARTOR, employee.getEmployeeType());
+        assertEquals(OPERATOR, employee.getEmployeeType());
         assertEquals(EmployeeStatus.ACTIVE, employee.getEmployeeStatus());
     }
 }

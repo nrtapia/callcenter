@@ -22,4 +22,9 @@ public class Employee extends Person {
         this.employeeStatus = employeeStatus;
         this.callCounter = callCounter;
     }
+
+    @Override
+    public String toString() {
+        return employeeType + "_" + getId();
+    }
 }
